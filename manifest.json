@@ -1,0 +1,15 @@
+{
+    "manifest_version": 2,
+    "name": "ReadABook",
+    "version": "1.0",
+    "description": "Stop looking at Reddit and read a book.",
+    "content_scripts": [
+         {
+           "matches": ["https://www.reddit.com/*"],
+           "js": ["jquery.min.js", "./main.js"],
+           "css": ["index.css"]
+         }
+   ]  
+}
+
+
