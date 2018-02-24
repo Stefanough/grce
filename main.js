@@ -1,9 +1,58 @@
 console.log("hi there");
 
 var allContent = $('body');
+var overlayArr = [];
+var locationArr = [];
 
 // Its 30 degrees outside, hide under a tree and read a book. 
 // message based on location and weather.
+
+// get weather data
+function getLat() {
+    return locationArr[0];
+}
+
+function getWeather(callback) {
+    $.ajax({
+        method: 'GET',
+        url: `https://api.openweathermap.org/data/2.5/weather?lat=${locationArr[0]}&lon=${locationArr[1]}&units=imperial&appid=b45681db9de694684410db4541ff8d79`,
+        success: function(weather) {
+            callback(weather);
+        },
+        error: function(err) {
+        }
+    });
+}
+
+// get location based on ip address
+function getGeo(ip, callback) {
+    $.ajax({
+        method: 'GET',
+        url: 'https://ipapi.co/' + ip + '/json/',
+        success: function(geo) {
+            callback(geo);
+        },
+        error: function(err) {
+        }
+    });
+}
+
+function returnGeo() {
+    getIP(function(data) {
+        getGeo(data.ip, function(loc) {
+        locationArr[0] = loc.latitude;
+        locationArr[1] = loc.longitude;
+        overlayArr[1] = `<div id="location">beautiful ${loc.city}, ${loc.region_code}</div>`;
+        getWeather(function(data) {
+            overlayArr[0] = `<div id="weather">Hey! It's ${data.main.temp} in</div>`;
+            console.log('weather:', data);
+        });
+        console.log(loc);
+        });
+    });
+}
+
+returnGeo();
 
 // get NYT bestseller data.
 var url = "https://api.nytimes.com/svc/books/v3/lists.json";
@@ -13,13 +62,13 @@ url += '?' + $.param({
   'rank': 1
 });
 
-function getBook(callBack) {
+function getBook(bookCB) {
     $.ajax({
         url: url,
         method: 'GET',
     }).done(function(result) {
-        var nytBook = callBack(result)
-        $('#overlay').append(`<div id="book_info">Hi you are in  READ ${nytBook.title} by ${nytBook.author} </div>`);
+        var nytBook = bookCB(result)
+        overlayArr[2] = `<div id="book_info">read ${nytBook.title} by ${nytBook.author} </div>`;
         console.log('NYTbook', nytBook);
     }).fail(function(err) {
         throw err;
@@ -33,68 +82,27 @@ function parseBook(book) {
 }
 getBook(parseBook);
 
-allContent.prepend( '<div id="overlay"></div>' );
-
 // get public ip address
-function getIP() {
-    $.ajax({
-        url: 'https://api.ipify.org?format=json'
-    }).done(function(result) {
-        console.log('getIP:', result);
-        getGeo(result.ip);
-    }).fail(function(err) {
-        throw err;
-    });
-}
-getIP();
-
-// get location data using HTML5 Geolocation
-// function getLocation() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     } else { 
-//         // x.innerHTML = "Geolocation is not supported by this browser.";
-//         console.log("Geolocation is not supported by this browser.");
-//     }
-// }
-// 
-// function showPosition(position) {
-//     console.log(position);
-//     // x.innerHTML = "Latitude: " + position.coords.latitude + 
-//     // "<br>Longitude: " + position.coords.longitude;
-// }
-// getLocation();
-
-// get location based on ip address
-function getGeo(ip) {
+function getIP(callback) {
     $.ajax({
         method: 'GET',
-        url: 'https://ipapi.co/' + ip + '/json/',
-        success: function(geo) {
-            console.log('geo', geo);
-            return geo
+        url: 'https://api.ipify.org?format=json',
+        success: function(ip) {
+            callback(ip);
         },
         error: function(err) {
         }
     });
 }
-
-
-// get weather data
-function getWeather(callback) {
-    $.ajax({
-        method: 'GET',
-        url: 'https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=b45681db9de694684410db4541ff8d79',
-        success: function(weather) {
-            callback(weather);
-        },
-        error: function(err) {
-        }
-    });
-}
-
-getWeather(function(data) {
-    console.log('weather:', data);
+getIP(function(data) {
+    console.log('ipaddress:', data);
 });
 
+
+allContent.prepend( '<div id="overlay"></div>' );
+
+
 // Build a string with data
+
+console.log(overlayArr);
+console.log(locationArr);
