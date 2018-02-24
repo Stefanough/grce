@@ -7,43 +7,20 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.7); /* Black background with opacity */
+    background-color: rgba(0,0,0,0.9); /* Black background with opacity */
     z-index: 100; /* Specify a stack order in case you're using a different order for other elements */
     /* cursor: pointer; */  /* Add a pointer on hover */
 }
 
-#book_info {
+.over-text {
     /* position: absolute; */
     top: 50%;
     left: 50%;
-    font-size: 100px;
-    color: white;
-    /* transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%); */
-}
-
-#location {
-    /* position: absolute; */
-    top: 50%;
-    left: 50%;
-    font-size: 100px;
+    font-size: 90px;
     color: white;
     /* transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%); */
 }
 
 
-#weather {
-    /* position: absolute; */
-    top: 50%;
-    left: 50%;
-    font-size: 100px;
-    color: white;
-    /* transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%); */
-}
 
-
-#header {
-    z-index: 0;
-}
