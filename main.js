@@ -81,19 +81,20 @@ function getGeo(ip) {
 
 
 // get weather data
-function getWeather(ip) {
+function getWeather(callback) {
     $.ajax({
         method: 'GET',
-        url: 'api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=b45681db9de694684410db4541ff8d79',
+        url: 'https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=b45681db9de694684410db4541ff8d79',
         success: function(weather) {
-            console.log('weather');
+            callback(weather);
         },
         error: function(err) {
         }
     });
 }
 
-getWeather();
+getWeather(function(data) {
+    console.log('weather:', data);
+});
 
-
-
+// Build a string with data
