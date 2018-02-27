@@ -5,6 +5,12 @@ var pageURL = window.location.href;
 allContent.prepend( '<div id="overlay"></div>' );
 var overlay = $('#overlay');
 
+function overFade() {
+    setTimeout(function(){ $('#overlay').fadeIn(2000); }, 3000);
+}
+
+overFade();
+
 // Its 30 degrees outside, hide under a tree and read a book. 
 
 // get weather data
@@ -123,5 +129,4 @@ function toTitleCase(str)
 {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
-
 
