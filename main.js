@@ -40,7 +40,7 @@ function returnGeo() {
             locationArr[1] = loc.longitude;
             $('#overlay').append(`<div id="location" class="over-text">beautiful ${loc.city}, ${loc.region_code}.</div>`);
             getWeather(function(data) {
-                $('#overlay').prepend(`<div id="weather" class="over-text">Hey! It's ${data.main.temp} in</div>`);
+                $('#overlay').prepend(`<div id="weather" class="over-text">Hey! It's ${data.main.temp} degrees in</div>`);
                 getBook(parseBook);
             });
         console.log(loc);
@@ -109,11 +109,8 @@ function extractRootDomain(url) {
     var domain = extractHostname(url),
         splitArr = domain.split('.'),
         arrLen = splitArr.length;
-    if (arrLen > 2) {
-        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
-        if (splitArr[arrLen - 1].length == 2 && splitArr[arrLen - 1].length == 2) {
-            domain = splitArr[arrLen - 3] + '.' + domain;
-        }
+    if (arrLen > 1) {
+        domain = splitArr[arrLen - 2];
     }
     return domain;
 }
@@ -126,3 +123,5 @@ function toTitleCase(str)
 {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
+
+
